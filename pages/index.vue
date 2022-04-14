@@ -36,11 +36,27 @@ export default {
   name: 'IndexPage',
   data() {
     return {
-      username: '11684',
-      password: '11684',
+      // username: '11684',
+      // password: '11684',
+      username: '',
+      password: '',
       show1: false,
+      status:"",
       snackbar: false,
     }
+  },
+  async mounted(){
+      this.status = 'FETCHING';
+      const vm = this;
+      navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: false,
+      }).then(() => {
+        this.status = 'DONE FETCHING';
+      }, (err) => {
+        console.error(err);
+      });
+
   },
   methods: {
     async login() {
@@ -50,7 +66,7 @@ export default {
         await this.$auth
           .login({
             data: {
-              username : this.username,
+              username: this.username,
               password: this.password,
             },
           })
@@ -58,17 +74,10 @@ export default {
             this.$router.push('/home')
           })
           .catch((err) => {
+            alert('Username Atau Password Anda Salah')
             this.snackbar = true
             console.log(err)
           })
-        // const a = await this.$axios.$post(
-        //   '/login-mobile',
-        //   {
-        //     username: this.username,
-        //     password: this.password,
-        //   }
-        // )
-        // console.log(a)
       }
     },
     forget() {

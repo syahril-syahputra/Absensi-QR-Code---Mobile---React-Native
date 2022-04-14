@@ -7,8 +7,8 @@
       </v-container>
     </v-main>
 
-    <v-footer :absolute="!fixed" app>
-      <span class="">&copy; BRI RO Malang {{ new Date().getFullYear() }}</span>
+    <v-footer :absolute="!fixed" class="d-flex justify-center items-center" app>
+      <span class="text-center">&copy; BRI RO Malang {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>

@@ -27,7 +27,9 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    '~/plugins/qr',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -47,7 +49,7 @@ export default {
   auth: {
     redirect: {
       login: '/',
-      home: '/dashboard'
+      home: '/home'
     },
     strategies: {
       local: {
@@ -103,7 +105,7 @@ export default {
     },
   },
   router: {
-    base: '/absensi/mobile/',
+    // base: '/absensi/mobile/',
     middleware: ['auth'],
 
   },
