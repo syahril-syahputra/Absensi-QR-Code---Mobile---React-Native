@@ -1,87 +1,92 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+  <v-form class="ma-4">
+    <p class="pt-2 pb-2 gray--text font-weight-bold">Silahkan Login</p>
+    <v-text-field
+      label="Username"
+      clearable
+      v-model="username"
+      prepend-icon="mdi-account"
+      hint="Masukan Username Anda"
+    ></v-text-field>
+    <v-text-field
+      prepend-icon="mdi-lock"
+      v-model="password"
+      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+      :type="show1 ? 'text' : 'password'"
+      name="input-10-1"
+      label="Password"
+      hint="Masukan Password Anda"
+      @click:append="show1 = !show1"
+      clearable
+    ></v-text-field>
+    <v-container class="d-flex justify-space-between align-center">
+      <span class="forgetpassword" @click="forget">Forget Password ? </span>
+      <v-btn o depressed color="primary" @click="login">
+        <v-icon left dark> mdi-key </v-icon>
+        Login
+      </v-btn>
+    </v-container>
+    <v-snackbar>Username Atau Password Salah</v-snackbar>
+  </v-form>
 </template>
 
 <script>
+import { AxiosRequestConfig } from 'axios'
 export default {
   name: 'IndexPage',
+  data() {
+    return {
+      username: '11684',
+      password: '11684',
+      show1: false,
+      snackbar: false,
+    }
+  },
+  methods: {
+    async login() {
+      if (this.username === '' || this.password === '') {
+        alert('Masukan Email/Username dan Password Anda')
+      } else {
+        await this.$auth
+          .login({
+            data: {
+              username : this.username,
+              password: this.password,
+            },
+          })
+          .then(() => {
+            this.$router.push('/home')
+          })
+          .catch((err) => {
+            this.snackbar = true
+            console.log(err)
+          })
+        // const a = await this.$axios.$post(
+        //   '/login-mobile',
+        //   {
+        //     username: this.username,
+        //     password: this.password,
+        //   }
+        // )
+        // console.log(a)
+      }
+    },
+    forget() {
+      alert('Silahkan Hubungi Admin Untuk Mendapatkan Password Login')
+    },
+  },
 }
 </script>
+<style scoped>
+.v-form {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 0px auto;
+  box-shadow: 2px 2px 2px #cccccc;
+}
+.forgetpassword {
+  color: #777777;
+  font-weight: bold;
+}
+</style>

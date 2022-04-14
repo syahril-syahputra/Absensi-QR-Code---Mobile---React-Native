@@ -42,19 +42,53 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
+  auth: {
+    redirect: {
+      login: '/',
+      home: '/dashboard'
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'content.access_token',
+          global: true,
+          required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: false
+        },
+        endpoints: {
+          login: {
+            url: '/login-mobile',
+            method :'post',
+            propertyName: "content.access_token"
+          },
+          user: {
+            url: '/user',
+            method: 'get',
+            propertyName: false
+          },
+          logout: false
+
+        }
+      }
+    }
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: process.env.API_URL,
+    credentials: true,
   },
-
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -67,6 +101,11 @@ export default {
         },
       },
     },
+  },
+  router: {
+    base: '/absensi/mobile/',
+    middleware: ['auth'],
+
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
