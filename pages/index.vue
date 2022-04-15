@@ -46,16 +46,16 @@ export default {
     }
   },
   async mounted(){
-      this.status = 'FETCHING';
-      const vm = this;
-      navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: false,
-      }).then(() => {
-        this.status = 'DONE FETCHING';
-      }, (err) => {
-        console.error(err);
-      });
+      // this.status = 'FETCHING';
+      // const vm = this;
+      // navigator.mediaDevices.getUserMedia({
+      //   video: true,
+      //   audio: false,
+      // }).then(() => {
+      //   this.status = 'DONE FETCHING';
+      // }, (err) => {
+      //   console.error(err);
+      // });
 
   },
   methods: {
@@ -71,7 +71,7 @@ export default {
             },
           })
           .then(() => {
-            this.$router.push('/home')
+            this.$router.push('/status')
           })
           .catch((err) => {
             alert('Username Atau Password Anda Salah')
